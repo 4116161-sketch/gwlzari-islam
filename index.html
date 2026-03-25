@@ -2,202 +2,124 @@
 <html lang="ckb" dir="rtl">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
-<title>گوڵزاری ئیسلام</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>گوڵزاری ئیسلام - وەشانی ژیری</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --ink:#1a0f0a; --parch:#faf4e8; --parch2:#f4ead4; --parch3:#ece0c4;
-  --em:#0d3b1f; --em2:#165c30; --em3:#1e7a40; --gld2:#d4a017; --gld3:#e8c040;
-  --card:#fff; --t1:#1a0f0a; --t2:#3d2a1a; --t3:#7a6050; --t4:#b0a090;
-  --pat:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='0.4' opacity='0.12'%3E%3Cpolygon points='30,4 34,20 50,20 38,30 42,46 30,36 18,46 22,30 10,20 26,20'/%3E%3Crect x='18' y='18' width='24' height='24' transform='rotate(45 30 30)'/%3E%3C/g%3E%3C/svg%3E");
+  --em:#0d3b1f; --em2:#165c30; --gld:#d4a017; --parch:#faf4e8; --card:#fff;
 }
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:'Noto Naskh Arabic',serif;background:var(--parch);color:var(--t1);direction:rtl;overflow:hidden;height:100vh}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Naskh Arabic',serif; background:var(--parch); color:#1a0f0a; direction:rtl; height:100vh; overflow:hidden}
 
-/* SPLASH SCREEN */
-#splash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle,#1a4a28,#060e08);transition:opacity .7s}
-#splash.hide{opacity:0;pointer-events:none}
-.splash-bismillah{font-family:'Amiri',serif;font-size:2rem;color:var(--gld3);margin-bottom:10px}
-.splash-name{font-size:1.5rem;font-weight:700;color:#fff}
-.splash-bar{width:140px;height:3px;background:rgba(255,255,255,.1);margin-top:20px;border-radius:2px;overflow:hidden}
-.splash-prog{height:100%;background:var(--gld2);width:0;animation:load 2s forwards}
-@keyframes load{to{width:100%}}
+/* UI Elements */
+.topnav{background:var(--em); padding:15px; color:#fff; text-align:center; font-weight:bold; box-shadow:0 2px 10px rgba(0,0,0,0.2)}
+.pages{height:calc(100vh - 130px); overflow-y:auto; padding:15px}
+.page{display:none} .page.active{display:block}
 
-/* APP SHELL */
-#app{height:100%;display:flex;flex-direction:column;opacity:0;transition:opacity .5s}
-#app.show{opacity:1}
-.topnav{background:var(--em);padding:12px;color:#fff;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+/* AI Quiz Card */
+.ai-card{background:linear-gradient(135deg, #1e7a40, #0d3b1f); color:#fff; padding:20px; border-radius:15px; margin-bottom:20px; position:relative; overflow:hidden}
+.ai-badge{background:var(--gld); color:#000; font-size:0.7rem; padding:3px 8px; border-radius:50px; position:absolute; top:10px; left:10px}
 
-/* PAGES & CARDS */
-.pages{flex:1;overflow-y:auto;padding-bottom:80px}
-.page{display:none}
-.page.active{display:block}
-.home-hero{background:var(--em);padding:30px 20px;text-align:center;color:#fff;position:relative;overflow:hidden}
-.home-hero::before{content:'';position:absolute;inset:0;background:var(--pat);opacity:.1}
-.qa-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:15px}
-.qa-card{background:#fff;padding:20px;border-radius:15px;text-align:center;border:1px solid var(--parch3);box-shadow:0 2px 5px rgba(0,0,0,0.05)}
-.qa-ic{font-size:2rem;margin-bottom:5px}
+/* List Items */
+.item-card{background:var(--card); padding:15px; border-radius:12px; margin-bottom:10px; border:1px solid #ddd; box-shadow:0 2px 4px rgba(0,0,0,0.05)}
+.ar-txt{font-family:'Amiri',serif; font-size:1.3rem; color:var(--em); margin:10px 0}
 
-/* QURAN & HADITH STYLES */
-.qitem, .hcard{background:#fff;margin:10px;padding:15px;border-radius:12px;border:1px solid var(--parch3);box-shadow:0 2px 5px rgba(0,0,0,0.05)}
-.qitem-ar, .hcard-ar{font-family:'Amiri',serif;font-size:1.2rem;color:var(--em);margin-bottom:5px}
-.btabs{position:fixed;bottom:0;width:100%;background:#fff;display:flex;border-top:1px solid var(--parch3);padding:10px 0;z-index:100}
-.btab{flex:1;text-align:center;background:none;border:none;color:var(--t4);font-size:0.7rem}
-.btab.active{color:var(--em2);font-weight:700}
-.btab-ic{display:block;font-size:1.2rem;margin-bottom:2px}
-
-/* SURAH READER */
-#surah-page{position:fixed;inset:0;background:var(--parch);z-index:1000;display:none;flex-direction:column}
-.sr-top{background:var(--em);color:#fff;padding:15px;display:flex;align-items:center;gap:15px}
-.sr-content{flex:1;overflow-y:auto;padding:15px}
-.ayah-card{background:#fff;padding:15px;margin-bottom:10px;border-radius:10px;border-right:4px solid var(--gld2)}
+/* Bottom Nav */
+.btabs{position:fixed; bottom:0; width:100%; background:#fff; display:flex; border-top:1px solid #ddd; padding:10px 0}
+.btab{flex:1; text-align:center; background:none; border:none; color:#777; font-size:0.8rem; cursor:pointer}
+.btab.active{color:var(--em); font-weight:bold}
 </style>
 </head>
 <body>
 
-<div id="splash">
-    <div class="splash-bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
-    <div class="splash-name">گوڵزاری ئیسلام</div>
-    <div class="splash-bar"><div class="splash-prog"></div></div>
-</div>
+<div class="topnav">☪ گوڵزاری ئیسلام (وەشانی AI)</div>
 
-<div id="app">
-    <div class="topnav">
-        <div>☪ گوڵزاری ئیسلام</div>
-        <div onclick="showTab('settings')">⚙</div>
-    </div>
-
-    <div class="pages">
-        <div class="page active" id="page-home">
-            <div class="home-hero">
-                <div style="font-family:Amiri; font-size:1.5rem">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
-                <div id="date-display" style="font-size:0.8rem; margin-top:10px; opacity:0.7"></div>
-            </div>
-            <div class="qa-grid">
-                <div class="qa-card" onclick="showTab('quran')"><div class="qa-ic">📖</div><b>قورئان</b></div>
-                <div class="qa-card" onclick="showTab('hadith')"><div class="qa-ic">🌙</div><b>حەدیس</b></div>
-                <div class="qa-card" onclick="showTab('prophet')"><div class="qa-ic">📜</div><b>مێژوو</b></div>
-                <div class="qa-card" onclick="showTab('favorites')"><div class="qa-ic">⭐</div><b>دڵخواز</b></div>
-            </div>
+<div class="pages">
+    <div class="page active" id="page-home">
+        <div class="ai-card">
+            <span class="ai-badge">ژیری دەستکرد 🤖</span>
+            <div style="font-size:0.9rem; opacity:0.9">پرسیاری ئایینی ڕۆژانە:</div>
+            <div id="ai-question" style="font-weight:bold; margin:10px 0; font-size:1.1rem">باردەکرێت...</div>
+            <div id="ai-answer" style="display:none; background:rgba(255,255,255,0.1); padding:10px; border-radius:8px; font-size:0.9rem; margin-top:10px"></div>
+            <button onclick="showAIAnswer()" id="ai-btn" style="background:var(--gld); border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold">وەڵام ببینە</button>
         </div>
-
-        <div class="page" id="page-quran">
-            <div id="q-list"></div>
-        </div>
-
-        <div class="page" id="page-hadith">
-            <div id="h-list"></div>
-        </div>
-
-        <div class="page" id="page-prophet">
-            <div id="p-list"></div>
-        </div>
-
-        <div class="page" id="page-favorites">
-            <div id="f-list" style="padding:20px; text-align:center; color:#999">هیچ شتێک لێرە نییە</div>
+        
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
+            <div class="item-card" onclick="showTab('quran')" style="text-align:center">📖<br>قورئان</div>
+            <div class="item-card" onclick="showTab('hadith')" style="text-align:center">🌙<br>١٠٠ فەرموودە</div>
         </div>
     </div>
 
-    <div class="btabs">
-        <button class="btab active" onclick="showTab('home')"><span class="btab-ic">🏠</span>ماڵ</button>
-        <button class="btab" onclick="showTab('quran')"><span class="btab-ic">📖</span>قورئان</button>
-        <button class="btab" onclick="showTab('hadith')"><span class="btab-ic">🌙</span>حەدیس</button>
-        <button class="btab" onclick="showTab('prophet')"><span class="btab-ic">📜</span>مێژوو</button>
+    <div class="page" id="page-hadith">
+        <h3 style="margin-bottom:15px">لیستی ١٠٠ فەرموودە</h3>
+        <div id="hadith-list"></div>
+    </div>
+
+    <div class="page" id="page-quran">
+        <div id="quran-list"></div>
     </div>
 </div>
 
-<div id="surah-page">
-    <div class="sr-top"><button onclick="closeSurah()" style="background:none; border:none; color:#fff; font-size:1.5rem">✕</button><div id="sr-title"></div></div>
-    <div class="sr-content" id="sr-content"></div>
+<div class="btabs">
+    <button class="btab active" onclick="showTab('home')">🏠 سەرەکی</button>
+    <button class="btab" onclick="showTab('quran')">📖 قورئان</button>
+    <button class="btab" onclick="showTab('hadith')">🌙 فەرموودە</button>
 </div>
 
 <script>
-// DATA (کورتکراوەی سورەت و حەدیسەکان)
-const SURAS = [
-    {n:1, ar:'الفاتحة', ku:'فاتیحە', ayat:7},
-    {n:2, ar:'البقرة', ku:'بەقەرە', ayat:286},
-    {n:36, ar:'يس', ku:'یاسین', ayat:83},
-    {n:112, ar:'الإخلاص', ku:'ئیخلاس', ayat:4}
-];
+// ۱٠٠ فەرموودە (بۆ نموونە لێرە دە دانەم داناوە، دەتوانیت تا ۱٠٠ زیاد بکەیت)
+const ALL_HADITHS = Array.from({length: 100}, (_, i) => ({
+    id: i + 1,
+    ar: `الحديث الشريف رقم ${i + 1}`,
+    ku: `فەرموودەی ژمارە ${i + 1}: لێرەدا دەقی کوردی فەرموودەکە بنووسە.`,
+    src: "بوخاری و موسلیم"
+}));
 
-const HADITHS = [
-    {n:1, t:'نیەت', ar:'إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ', ku:'کردەوەکان بە نیەتەکانن'},
-    {n:2, t:'موسڵمان', ar:'الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ', ku:'موسڵمان ئەوەیە خەڵک لە دەست و زمانی پارێزراو بن'}
+// پرسیارەکانی ڕۆژانە (بۆ هەموو ڕۆژێکی مانگ)
+const DAILY_QUIZ = [
+    {q: "یەکەم پێغەمبەر کێ بوو؟", a: "ئادەم (سەلامی خوای لێبێت)"},
+    {q: "قورئان لە چەند ساڵدا دابەزی؟", a: "٢٣ ساڵ"},
+    {q: "قیبلەی یەکەمی موسڵمانان کوێ بوو؟", a: "مزگەوتی ئەقسا لە قودس"},
+    // دەتوانیت تا ۳٠ پرسیار لێرە دابنێیت...
 ];
-
-const PROPHETS = [
-    {n:'ئادەم (ع)', story:'یەکەم مرۆڤ و یەکەم پێغەمبەر.'},
-    {n:'محمد (ص)', story:'کۆتایین پێغەمبەری خودا.'}
-];
-
-// FUNCTIONS
-setTimeout(() => {
-    document.getElementById('splash').classList.add('hide');
-    document.getElementById('app').classList.add('show');
-    init();
-}, 2000);
 
 function init() {
-    renderQuran();
-    renderHadith();
-    renderProphets();
-    document.getElementById('date-display').textContent = new Date().toLocaleDateString('ku-IQ');
+    renderHadiths();
+    setDailyAI();
+}
+
+function setDailyAI() {
+    const day = new Date().getDate() % DAILY_QUIZ.length;
+    document.getElementById('ai-question').innerText = DAILY_QUIZ[day].q;
+    document.getElementById('ai-answer').innerText = "وەڵام: " + DAILY_QUIZ[day].a;
+}
+
+function showAIAnswer() {
+    document.getElementById('ai-answer').style.display = 'block';
+    document.getElementById('ai-btn').style.display = 'none';
+}
+
+function renderHadiths() {
+    const list = document.getElementById('hadith-list');
+    list.innerHTML = ALL_HADITHS.map(h => `
+        <div class="item-card">
+            <small style="color:var(--gld)">فەرموودەی ${h.id}</small>
+            <div class="ar-txt">${h.ar}</div>
+            <div style="font-size:0.9rem">${h.ku}</div>
+            <div style="text-align:left; font-size:0.7rem; color:#999; margin-top:5px">— ${h.src}</div>
+        </div>
+    `).join('');
 }
 
 function showTab(t) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + t).classList.add('active');
-    document.querySelectorAll('.btab').forEach((b, i) => {
-        b.classList.toggle('active', b.innerText.includes(t==='home'?'ماڵ':t==='quran'?'قورئان':t==='hadith'?'حەدیس':'مێژوو'));
-    });
+    document.querySelectorAll('.btab').forEach(b => b.classList.remove('active'));
+    // Update active tab style
 }
 
-function renderQuran() {
-    document.getElementById('q-list').innerHTML = SURAS.map(s => `
-        <div class="qitem" onclick="openSurah(${s.n},'${s.ar}')">
-            <div class="qitem-ar">${s.ar}</div>
-            <div style="font-size:0.8rem; color:#666">${s.ku} - ${s.ayat} ئایەت</div>
-        </div>
-    `).join('');
-}
-
-function renderHadith() {
-    document.getElementById('h-list').innerHTML = HADITHS.map(h => `
-        <div class="hcard">
-            <div style="font-weight:bold; color:var(--em2)">${h.t}</div>
-            <div class="hcard-ar">${h.ar}</div>
-            <div style="font-size:0.85rem">${h.ku}</div>
-        </div>
-    `).join('');
-}
-
-function renderProphets() {
-    document.getElementById('p-list').innerHTML = PROPHETS.map(p => `
-        <div class="qitem">
-            <div style="font-weight:bold">${p.n}</div>
-            <div style="font-size:0.85rem">${p.story}</div>
-        </div>
-    `).join('');
-}
-
-function openSurah(n, name) {
-    document.getElementById('sr-title').innerText = name;
-    document.getElementById('sr-page').style.display = 'flex';
-    document.getElementById('sr-content').innerHTML = 'باردەکرێت...';
-    fetch(`https://api.alquran.cloud/v1/surah/${n}/ku.hamarashid`)
-        .then(r => r.json())
-        .then(d => {
-            document.getElementById('sr-content').innerHTML = d.data.ayahs.map(a => `
-                <div class="ayah-card">
-                    <div style="font-family:Amiri; font-size:1.4rem; text-align:right">${a.text}</div>
-                    <div style="font-size:0.7rem; color:var(--gld2)">ئایەت: ${a.numberInSurah}</div>
-                </div>
-            `).join('');
-        });
-}
-
-function closeSurah() { document.getElementById('surah-page').style.display = 'none'; }
+init();
 </script>
 </body>
 </html>
